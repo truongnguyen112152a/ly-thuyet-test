@@ -1,3 +1,4 @@
+/*
 .gitignore : ẩn các file mà không muốn đẩy lên git
 npm i -g nodemon : cài đặt package tự động uppdate lên server
 
@@ -80,3 +81,4 @@ npm i -g nodemon : cài đặt package tự động uppdate lên server
   - cho phép thay đổi header của các request
   - gom các request cùng server vào với nhau
   - với POST(hoặc PUT): thêm nội dung vào phần body(x-www-form) => send request
+*/

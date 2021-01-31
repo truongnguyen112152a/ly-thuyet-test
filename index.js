@@ -1,36 +1,15 @@
 const express = require('express');
 const app = express();
 var port = 3001;
+var tool = require('./container')
+var arr = tool[0]
+var arr2 = tool[1]
 // Bài 1:
-var arr = [
-    {
-        id: 1,
-        name: "Phong",
-        password: "1",
-        address: "HN"
-    },
-    {
-        id: 2,
-        name: "Tu",
-        password: "1",
-        address: "BN"
-    },
-    {
-        id: 3,
-        name: "Huy",
-        password: "1",
-        address: "TH"
-    },
-    {
-        id: 4,
-        name: "Thang",
-        password: "1",
-        address: "HG"
-    }
-]
+// a,in ra mảng
 app.get("/arr",(req,res) => {
     res.json(arr)
 })
+// b,in ra theo id
 app.get("/id",(req,res) => {
     var newArr = [];
     for(index in arr){
@@ -38,6 +17,7 @@ app.get("/id",(req,res) => {
     }
     res.json(newArr)
 })
+// c,thay đổi giá trị của mảng
 app.get("/change",(req,res) => {
     var obj = {
         id: 5,
@@ -48,6 +28,7 @@ app.get("/change",(req,res) => {
     arr.push(obj)
     res.json(arr)
 })
+// d,thay đổi giá trị của mảng theo id
 app.get("/up-to-date/:name/:address",(req,res) => {
     for(index in arr){
         if(arr[index].id === 2){
@@ -57,15 +38,13 @@ app.get("/up-to-date/:name/:address",(req,res) => {
     }
     res.json(arr)
 })
+// e,xóa một phần tử theo id
 app.get("/delete/:id",(req,res) => {
-    var idRemove = req.params.id;
-    function remove(x) {
-        var numberX = parseInt(x);
-        var newArr = arr.filter(value => value.id !== numberX);
-        res.json(newArr);
-    }
-    remove(idRemove)
+    var numberX = parseInt(req.params.id);
+    var newArr = arr.filter(value => value.id !== numberX);
+    res.json(newArr);
 })
+// g,đăng nhập
 app.get("/sign-in/:name/:password",(req,res) => {
     for(index in arr){
         if(req.params.name === arr[index].name && req.params.password === arr[index].password){
@@ -74,98 +53,7 @@ app.get("/sign-in/:name/:password",(req,res) => {
     }
     return res.json("Sai name hoặc password")
 })
-var arr2 = [
-    {
-        id: 1,
-        name: "Phong",
-        password: "1",
-        address: "HN"
-    },
-    {
-        id: 2,
-        name: "Tu",
-        password: "1",
-        address: "BN"
-    },
-    {
-        id: 3,
-        name: "Huy",
-        password: "1",
-        address: "TH"
-    },
-    {
-        id: 4,
-        name: "Thang",
-        password: "1",
-        address: "HG"
-    },
-    {
-        id: 5,
-        name: "Phong",
-        password: "1",
-        address: "HN"
-    },
-    {
-        id: 6,
-        name: "Tu",
-        password: "1",
-        address: "BN"
-    },
-    {
-        id: 7,
-        name: "Huy",
-        password: "1",
-        address: "TH"
-    },
-    {
-        id: 8,
-        name: "Thang",
-        password: "1",
-        address: "HG"
-    },
-    {
-        id: 9,
-        name: "Phong",
-        password: "1",
-        address: "HN"
-    },
-    {
-        id: 10,
-        name: "Tu",
-        password: "1",
-        address: "BN"
-    },
-    {
-        id: 11,
-        name: "Huy",
-        password: "1",
-        address: "TH"
-    },
-    {
-        id: 12,
-        name: "Thang",
-        password: "1",
-        address: "HG"
-    },
-    {
-        id: 13,
-        name: "Phong",
-        password: "1",
-        address: "HN"
-    },
-    {
-        id: 14,
-        name: "Tu",
-        password: "1",
-        address: "BN"
-    },
-    {
-        id: 15,
-        name: "Tu",
-        password: "1",
-        address: "BN"
-    }
-]
+// h,phân trang
 app.get("/Tab/:number",(req,res) => {
     var tab = parseInt(req.params.number);
     var newArr2 = [];
@@ -183,12 +71,16 @@ app.get("/Tab/:number",(req,res) => {
 })
 // Bài 2
 var obj = {name: "Nodemy",address: "Nguyễn Xiển"}
+// a,in ra tên thuộc tính
 app.get("/show-name-key",(req,res) => {
     res.json(Object.keys(obj))
 })
+// b,in ra giá trị của thuộc tính
 app.get("/show-value-key",(req,res) => {
     res.json(Object.values(obj))
 })
+// c,thêm thuộc tính 
+// c1: query
 app.get("/add-obj-query",(req,res) => {
     var addAge = req.query.age;
     var addCourse = req.query.course;
@@ -197,6 +89,7 @@ app.get("/add-obj-query",(req,res) => {
     res.json(obj)
 
 })
+// c2: body
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.post("/add-obj-body",(req,res) => {
@@ -206,22 +99,29 @@ app.post("/add-obj-body",(req,res) => {
     obj.course = addCourse;
     res.json(obj)
 })
+// d,update
 app.put("/test-values/:key",(req,res) => {
+    var key = req.params.key
     var arrKey = Object.keys(obj)
     for(value of arrKey){
-        if(req.params.key === value){
-            return res.json("đã được uppdate")
+        if(key === value){
+            return res.json(obj[key])
         }
     }
-    return res.json("chưa được uppdate nhập giá trị khác")
+    return res.json(`Không có thuộc tính ${key}`)
+
 })
-app.get("/test-get/:key",(req,res) => {
+// e,xóa
+app.delete("/delete-key/:id",(req,res) => {
+    var id = req.params.id
     var arrKey = Object.keys(obj)
     for(value of arrKey){
-        if(req.params.key === value){
-            return res.json("đã được uppdate")
+        if(id === value ){
+            delete obj[value]
+            return res.json(obj)
         }
     }
-    return res.json("chưa được uppdate nhập giá trị khác")
+    return res.json(`Không có thuộc tính ${id}`)
+
 })
 app.listen(port,() => console.log("hello"))

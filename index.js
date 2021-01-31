@@ -99,6 +99,12 @@ app.post("/add-obj-body",(req,res) => {
     obj.course = addCourse;
     res.json(obj)
 })
+// c3: key có sẵn
+app.get("/add-value-obj/:val1/:val2",(req,res) => {
+    obj.age = req.params.val1;
+    obj.course = req.params.val2;
+    res.json(obj)
+})
 // d,update
 app.put("/test-values/:key",(req,res) => {
     var key = req.params.key

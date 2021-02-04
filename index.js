@@ -93,10 +93,11 @@ app.get("/add-obj-query",(req,res) => {
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.post("/add-obj-body",(req,res) => {
-    var addAge = req.body.age;
-    var addCourse = req.body.course;
-    obj.age = addAge;
-    obj.course = addCourse;
+    var arrValueObj = Object.values(req.body)
+    var arrKeyObj = Object.keys(req.body)
+    for(index in arrKeyObj){
+        obj[arrKeyObj[index]] = arrValueObj[index]
+    }
     res.json(obj)
 })
 // c3: key có sẵn

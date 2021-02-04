@@ -1,0 +1,67 @@
+* Khái niệm:
+- MongoDB là một hệ quản trị cơ sở dữ liệu mã nguồn mở,là CSDLthuộc NOSQL
+- MongoDB là một database hướng tài liệu (document),các dữ liệu được lưu trữ trong document
+kiểu JSON thay vì dạng bảng như SQL nên truy vấn sẽ rất nhanh
+- MongoDB lưu trữ các dữ liệu không theo một cấu trúc nhất định => truy vấn dữ liệu nhanh
+=> Ưu tiên dùng cho các hệ thống realtime yêu cầu phản hồi nhanh,
+hệ thống bigdata yêu cầu truy vấn nhanh hay các hệ thống có lượng request lớn
+* Syntax:
+const mongoose = require('mongoose'); mongoose là một module liên kết với mongodb
+mongoose.connect('mongodb://localhost:27017/test',
+{useNewUrlParser: true, useUnifiedTopology: true}); // kết nối với kho chứa thông qua URL
+// xây dựng bộ khung lưu trữ data
+let userSchema = {
+    name: String,
+    email: String,
+    password: String,
+    age: Number
+}
+let useModel = mongoose.model("user", userSchema)
+// tạo data
+useModel.create({
+    name: "Trường1",
+    email: "truong1@gmail.com",
+    password: "String",
+    age: 10
+}) // hàm bất đồng bộ
+.then(data => {
+    console.log(data)
+})
+.catch(err => {
+
+})
+// tìm kiếm 
+useModel.find() // tìm kiếm ko điều kiện thì sẽ trả về toàn bộ dữ liệu
+.then(data => {
+    console.log(data)
+})
+.catch(err => {})
+useModel.find({
+    _id: "601a6ce461785d046cdc1ef5" // điều kiện là duy nhất
+})
+.then(data => {
+    console.log(data)
+})
+.catch(err => {})
+// cập nhật dữ liệu cho bản ghi
+useModel.updateOne({
+    // điều kiện 
+},{
+    // nội dung thay đổi
+})
+useModel.updateMany({ // thay đổi nhiều file
+    // điều kiện
+},{
+    // nội dung thay đổi
+})
+// delete dữ liệu bản ghi
+useModel.deleteOne({ // xóa một phần tử
+    // điều kiện (không để điều kiện thì xóa phần tử đầu tiên)
+},{
+    // thông báo
+})
+useModel.deleteMany({ // xóa nhiều phần tử
+    // điều kiện (không để điều kiện thì xóa toàn bộ)
+},{
+    // thông báo
+})
